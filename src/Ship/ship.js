@@ -16,8 +16,10 @@ const Ship = (inputLength = 1) => {
     return false;
   };
 
+  const shipCoords = [];
+
   return {
-    length, hitNum, isSunk, hit,
+    length, hitNum, isSunk, hit, shipCoords,
   };
 };
 

@@ -30,6 +30,10 @@ test('Ship has isSunk() function', () => {
   expect(typeof Ship().isSunk).not.toBe('undefined');
 });
 
+test('Ship has array with coordinates it occupies', () => {
+  expect(typeof Ship().shipCoords).not.toBe('undefined');
+});
+
 test('Ship object returns isSunk appropriately', () => {
   const ship1 = Ship();
   ship1.hit();
