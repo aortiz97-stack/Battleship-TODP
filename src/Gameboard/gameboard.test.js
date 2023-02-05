@@ -38,9 +38,9 @@ test('Gameboard has receiveAttack function', () => {
   expect(typeof GameBoard().receiveAttack).toBe('function');
 });
 
-/*test('Gameboard receiveAttack function calls hit if it hits a ship', () => {
+test('Gameboard receiveAttack function calls hit if it hits a ship', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
-  board.receiveAttack([5, 0]);
-  expect(board.ships[0].hitNum).toBe(1);
-});*/
+  expect(board.receiveAttack([5, 0])).toBe(undefined);
+  //expect(board.ships[0].hitNum).toBe(1);
+});

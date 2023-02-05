@@ -61,9 +61,7 @@ const GameBoard = () => {
     return false;
   };
   const placeShip = (length, coords, axis = 'x') => {
-    console.log(`truthiness: ${spacedOccupied(length, coords, axis)}`);
     if (spacedOccupied(length, coords, axis)) {
-      console.log('entrada');
       throw new Error('Space is already occupied');
     }
     const newShip = Ship(length);
@@ -75,9 +73,9 @@ const GameBoard = () => {
   const receiveAttack = (coords) => {
     for (let i = 0; i < ships.length; i += 1) {
       const ship = ships[i];
-      for (let j = 0; j < ship.shipCoords; j += 1) {
+      for (let j = 0; j < ship.shipCoords.length; j += 1) {
         const shipCoord = ship.shipCoords[j];
-        if (coords === shipCoord) {
+        if (JSON.stringify(coords) === JSON.stringify(shipCoord)) {
           ship.hit();
         }
       }
