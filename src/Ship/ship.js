@@ -19,7 +19,7 @@ const Ship = (inputLength = 1) => {
   const shipCoords = [];
 
   return {
-    length, hitNum, isSunk, hit, shipCoords,
+    length, getHitNum, hitNum, isSunk, hit, shipCoords,
   };
 };
 

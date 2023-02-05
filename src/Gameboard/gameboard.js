@@ -17,6 +17,7 @@ const GameBoard = () => {
   const grid = setGrid();
   const getGrid = () => grid;
   const ships = [];
+  const missedShots = [];
 
   const markGridAsOccupied = (length, coords, axis, ship) => {
     getGrid()[coords[0]][coords[1]] = ['o'];
@@ -71,14 +72,20 @@ const GameBoard = () => {
   };
 
   const receiveAttack = (coords) => {
+    let shipHit = false;
     for (let i = 0; i < ships.length; i += 1) {
       const ship = ships[i];
       for (let j = 0; j < ship.shipCoords.length; j += 1) {
         const shipCoord = ship.shipCoords[j];
         if (JSON.stringify(coords) === JSON.stringify(shipCoord)) {
           ship.hit();
+          grid[coords[0]][coords[1]] = 'x';
+          shipHit = true;
         }
       }
+    }
+    if (!shipHit) {
+      grid[coords[0]][coords[1]] = '.';
     }
   };
 
