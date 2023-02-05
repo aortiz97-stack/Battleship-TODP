@@ -21,19 +21,19 @@ const GameBoard = () => {
 
   const markGridAsOccupied = (length, coords, axis, ship) => {
     getGrid()[coords[0]][coords[1]] = ['o'];
-    ship.shipCoords.push(coords);
+    ship.getShipCoords().push(coords);
     if (axis === 'x') {
       let newCoordX = coords[0] + 1;
       while (newCoordX < coords[0] + length) {
         getGrid()[newCoordX][coords[1]] = ['o'];
-        ship.shipCoords.push([newCoordX, coords[1]]);
+        ship.getShipCoords().push([newCoordX, coords[1]]);
         newCoordX += 1;
       }
     } else if (axis === 'y') {
       let newCoordY = coords[1] + 1;
       while (newCoordY < coords[1] + length) {
         getGrid()[coords[0]][newCoordY] = ['o'];
-        ship.shipCoords.push([coords[0], newCoordY]);
+        ship.getShipCoords().push([coords[0], newCoordY]);
         newCoordY += 1;
       }
     }
@@ -75,8 +75,8 @@ const GameBoard = () => {
     let shipHit = false;
     for (let i = 0; i < ships.length; i += 1) {
       const ship = ships[i];
-      for (let j = 0; j < ship.shipCoords.length; j += 1) {
-        const shipCoord = ship.shipCoords[j];
+      for (let j = 0; j < ship.getShipCoords().length; j += 1) {
+        const shipCoord = ship.getShipCoords()[j];
         if (JSON.stringify(coords) === JSON.stringify(shipCoord)) {
           ship.hit();
           grid[coords[0]][coords[1]] = ['x'];

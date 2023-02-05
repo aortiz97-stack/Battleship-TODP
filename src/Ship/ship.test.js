@@ -6,11 +6,11 @@ test('Ship is a factory function', () => {
 });
 
 test('Ship() has length attribute', () => {
-  expect(typeof Ship().length).not.toBe('undefined');
+  expect(typeof Ship().getLength()).not.toBe('undefined');
 });
 
 test('Ship() has hitNum attribute', () => {
-  expect(typeof Ship().hitNum).not.toBe('undefined');
+  expect(typeof Ship().getHitNum()).not.toBe('undefined');
 });
 
 test('Ship() has isSunk attribute', () => {
@@ -18,8 +18,8 @@ test('Ship() has isSunk attribute', () => {
 });
 
 test('Ship receives a length parameter and updates length parameter', () => {
-  expect(Ship(4).length).toBe(4);
-  expect(Ship().length).toBe(1);
+  expect(Ship(4).getLength()).toBe(4);
+  expect(Ship().getLength()).toBe(1);
 });
 
 test('Ship has hit() function', () => {
@@ -31,7 +31,7 @@ test('Ship has isSunk() function', () => {
 });
 
 test('Ship has array with coordinates it occupies', () => {
-  expect(typeof Ship().shipCoords).not.toBe('undefined');
+  expect(typeof Ship().getShipCoords()).not.toBe('undefined');
 });
 
 test('Ship object returns isSunk appropriately', () => {

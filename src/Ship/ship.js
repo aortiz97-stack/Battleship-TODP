@@ -17,9 +17,10 @@ const Ship = (inputLength = 1) => {
   };
 
   const shipCoords = [];
+  const getShipCoords = () => shipCoords;
 
   return {
-    length, getHitNum, hitNum, isSunk, hit, shipCoords,
+    getLength, getHitNum, isSunk, hit, getShipCoords,
   };
 };
 
