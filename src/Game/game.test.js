@@ -8,5 +8,5 @@ test('Game creates two player objects', () => {
 });
 
 test('Game determines if the game has ended', () => {
-  expect(typeof Game().gameEnded).not.toBe(undefined);
+  expect(typeof Game().gameOver).not.toBe(undefined);
 });

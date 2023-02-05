@@ -7,10 +7,20 @@ const Game = () => {
   const getPlayer1 = () => player1;
   const getPlayer2 = () => player2;
 
-  const gameEnded = () => getPlayer1().getGameBoard().allShipsSunk() 
-  || getPlayer2().getGameBoard().allShipsSunk();
+  const gameOver = () => (getPlayer1().getGameBoard().allShipsSunk()
+    || getPlayer2().getGameBoard().allShipsSunk());
 
-  return { getPlayer1, getPlayer2, gameEnded };
+  const declareWinner = () => {
+    if (gameOver()) {
+      if (getPlayer1.getGameBoard().allShipsSunk()) alert("Congratulations, you've won!");
+      else if (getPlayer2.getGameBoard().allShipsSunk()) alert("Sorry, you've lost");
+      else alert('The game is a draw');
+    }
+  };
+
+  return {
+    getPlayer1, getPlayer2, gameOver, declareWinner,
+  };
 };
 
 module.exports = Game;
