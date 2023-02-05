@@ -89,8 +89,16 @@ const GameBoard = () => {
     }
   };
 
+  const allShipsSunk = () => {
+    for (let i = 0; i < ships.length; i += 1) {
+      const ship = ships[i];
+      if (!ship.isSunk()) return false;
+    }
+    return true;
+  };
+
   return {
-    grid, ships, placeShip, receiveAttack,
+    grid, ships, placeShip, receiveAttack, allShipsSunk,
   };
 };
 

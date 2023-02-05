@@ -58,3 +58,24 @@ test('Gameboard cell with with . if it is a missed shot', () => {
   board.receiveAttack([6, 0]);
   expect(board.grid[6][0]).toEqual(['.']);
 });
+
+test('Gameboard has function that tests to see if all ships are sunk', () => {
+  expect(GameBoard().allShipsSunk).not.toBe(undefined);
+});
+
+test('Gameboard allShips sunk returns true if all ships are sunk', () => {
+  const board = GameBoard();
+  board.placeShip(1, [2, 0]);
+  board.placeShip(1, [9, 9]);
+  board.receiveAttack([2, 0]);
+  board.receiveAttack([9, 9]);
+  expect(board.allShipsSunk()).toBe(true);
+});
+
+test('Gameboard allShips sunk returns false if not all ships are sunk', () => {
+  const board = GameBoard();
+  board.placeShip(1, [2, 0]);
+  board.placeShip(1, [9, 9]);
+  board.receiveAttack([2, 0]);
+  expect(board.allShipsSunk()).toBe(false);
+});
