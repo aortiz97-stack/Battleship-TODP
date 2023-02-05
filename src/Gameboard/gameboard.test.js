@@ -51,3 +51,10 @@ test('Gameboard marks cell with x if a ship is hit', () => {
   board.receiveAttack([5, 0]);
   expect(board.grid[5][0]).toEqual(['x']);
 });
+
+test('Gameboard cell with with . if it is a missed shot', () => {
+  const board = GameBoard();
+  board.placeShip(4, [2, 0], 'x');
+  board.receiveAttack([6, 0]);
+  expect(board.grid[6][0]).toEqual(['.']);
+});
