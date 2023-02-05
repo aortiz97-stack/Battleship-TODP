@@ -20,17 +20,17 @@ test('Gameboard placeShip marks coordinates as occupied', () => {
   const board = GameBoard();
   board.placeShip(2, [0, 0], 'x');
   expect(board.getGrid()[0][0]).toEqual(['o']);
-  expect(board.getGrid()[1][0]).toEqual(['o']);
-  expect(board.getGrid()[2][0]).not.toEqual(['o']);
+  expect(board.getGrid()[0][1]).toEqual(['o']);
+  expect(board.getGrid()[0][2]).not.toEqual(['o']);
 });
 
 test('Gameboard placeShip throws an error if coordinates are already occupied', () => {
   const board = GameBoard();
-  board.placeShip(2, [0, 0], 'x');
-  board.placeShip(3, [7, 7], 'y');
+  board.placeShip(2, [0, 0], 'y');
+  board.placeShip(3, [7, 7], 'x');
 
   expect(() => board.placeShip(1, [0, 0])).toThrow('Space is already occupied');
-  expect(() => board.placeShip(2, [7, 8], 'y')).toThrow('Space is already occupied');
+  expect(() => board.placeShip(2, [7, 8], 'x')).toThrow('Space is already occupied');
 });
 
 test('Gameboard has receiveAttack function', () => {
@@ -40,13 +40,13 @@ test('Gameboard has receiveAttack function', () => {
 test('Gameboard receiveAttack function calls hit if it hits a ship', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
-  board.receiveAttack([5, 0]);
+  board.receiveAttack([2, 3]);
   expect(board.getShips()[0].getHitNum()).toBe(1);
 });
 
 test('Gameboard marks cell with x if a ship is hit', () => {
   const board = GameBoard();
-  board.placeShip(4, [2, 0], 'x');
+  board.placeShip(4, [2, 0], 'y');
   board.receiveAttack([5, 0]);
   expect(board.getGrid()[5][0]).toEqual(['x']);
 });

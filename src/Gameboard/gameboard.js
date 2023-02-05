@@ -6,7 +6,7 @@ const GameBoard = () => {
     for (let i = 0; i < 10; i += 1) {
       const row = [];
       for (let j = 0; j < 10; j += 1) {
-        const pos = [' '];
+        const pos = ['empty'];
         row.push(pos);
       }
       grid.push(row);
@@ -23,18 +23,18 @@ const GameBoard = () => {
     getGrid()[coords[0]][coords[1]] = ['o'];
     ship.getShipCoords().push(coords);
     if (axis === 'x') {
-      let newCoordX = coords[0] + 1;
-      while (newCoordX < coords[0] + length) {
-        getGrid()[newCoordX][coords[1]] = ['o'];
-        ship.getShipCoords().push([newCoordX, coords[1]]);
-        newCoordX += 1;
-      }
-    } else if (axis === 'y') {
       let newCoordY = coords[1] + 1;
       while (newCoordY < coords[1] + length) {
         getGrid()[coords[0]][newCoordY] = ['o'];
         ship.getShipCoords().push([coords[0], newCoordY]);
         newCoordY += 1;
+      }
+    } else if (axis === 'y') {
+      let newCoordX = coords[0] + 1;
+      while (newCoordX < coords[0] + length) {
+        getGrid()[newCoordX][coords[1]] = ['o'];
+        ship.getShipCoords().push([newCoordX, coords[1]]);
+        newCoordX += 1;
       }
     }
     return ship;
@@ -43,20 +43,20 @@ const GameBoard = () => {
     let coordX = coords[0];
     let coordY = coords[1];
     if (axis === 'x') {
-      const finalCoordX = coordX + length - 1;
-      while (coordX <= finalCoordX) {
-        if (grid[coordX][coordY][0] === 'o') {
-          return true;
-        }
-        coordX += 1;
-      }
-    } else if (axis === 'y') {
       const finalCoordY = coordY + length - 1;
       while (coordY <= finalCoordY) {
         if (grid[coordX][coordY][0] === 'o') {
           return true;
         }
         coordY += 1;
+      }
+    } else if (axis === 'y') {
+      const finalCoordX = coordX + length - 1;
+      while (coordX <= finalCoordX) {
+        if (grid[coordX][coordY][0] === 'o') {
+          return true;
+        }
+        coordX += 1;
       }
     }
     return false;
