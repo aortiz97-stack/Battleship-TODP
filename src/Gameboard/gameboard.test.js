@@ -1,6 +1,5 @@
 /* eslint-disable no-undef */
 const GameBoard = require('./gameboard');
-const Ship = require('../Ship/ship');
 
 test('Gameboard returns a nested array with 10 x 10 containing [x,y] coordinates', () => {
   expect(GameBoard().grid.length).toBe(10);
