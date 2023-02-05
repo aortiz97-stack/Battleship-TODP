@@ -6,3 +6,7 @@ test('Game creates two player objects', () => {
   expect(JSON.stringify(Game().getPlayer1())).toEqual(JSON.stringify(Player()));
   expect(JSON.stringify(Game().getPlayer2())).toEqual(JSON.stringify(Player('computer')));
 });
+
+test('Game determines if the game has ended', () => {
+  expect(typeof Game().gameEnded).not.toBe(undefined);
+});

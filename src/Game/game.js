@@ -7,7 +7,10 @@ const Game = () => {
   const getPlayer1 = () => player1;
   const getPlayer2 = () => player2;
 
-  return { getPlayer1, getPlayer2 };
+  const gameEnded = () => getPlayer1().getGameBoard().allShipsSunk() 
+  || getPlayer2().getGameBoard().allShipsSunk();
+
+  return { getPlayer1, getPlayer2, gameEnded };
 };
 
 module.exports = Game;
