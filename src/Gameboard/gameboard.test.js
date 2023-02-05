@@ -41,12 +41,13 @@ test('Gameboard has receiveAttack function', () => {
 test('Gameboard receiveAttack function calls hit if it hits a ship', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
-  expect(board.receiveAttack([5, 0])).toBe(undefined);
+  board.receiveAttack([5, 0]);
   expect(board.ships[0].getHitNum()).toBe(1);
 });
 
-/*test('Gameboard marks cell with x if a ship is hit', ()=> {
-    const board = GameBoard();
-    board.placeShip(4, [2, 0], 'x');
-
-});*/
+test('Gameboard marks cell with x if a ship is hit', () => {
+  const board = GameBoard();
+  board.placeShip(4, [2, 0], 'x');
+  board.receiveAttack([5, 0]);
+  expect(board.grid[5][0]).toEqual(['x']);
+});

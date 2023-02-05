@@ -79,13 +79,13 @@ const GameBoard = () => {
         const shipCoord = ship.shipCoords[j];
         if (JSON.stringify(coords) === JSON.stringify(shipCoord)) {
           ship.hit();
-          grid[coords[0]][coords[1]] = 'x';
+          grid[coords[0]][coords[1]] = ['x'];
           shipHit = true;
         }
       }
     }
     if (!shipHit) {
-      grid[coords[0]][coords[1]] = '.';
+      grid[coords[0]][coords[1]] = ['.'];
     }
   };
 
