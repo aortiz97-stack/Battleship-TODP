@@ -17,6 +17,7 @@ const GameBoard = () => {
   const grid = setGrid();
   const getGrid = () => grid;
   const ships = [];
+  const getShips = () => ships;
 
   const markGridAsOccupied = (length, coords, axis, ship) => {
     getGrid()[coords[0]][coords[1]] = ['o'];
@@ -97,7 +98,7 @@ const GameBoard = () => {
   };
 
   return {
-    grid, ships, placeShip, receiveAttack, allShipsSunk,
+    getGrid, getShips, placeShip, receiveAttack, allShipsSunk,
   };
 };
 

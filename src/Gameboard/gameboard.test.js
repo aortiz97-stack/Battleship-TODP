@@ -2,8 +2,8 @@
 const GameBoard = require('./gameboard');
 
 test('Gameboard returns a nested array with 10 x 10 containing [x,y] coordinates', () => {
-  expect(GameBoard().grid.length).toBe(10);
-  expect(GameBoard().grid[0].length).toBe(10);
+  expect(GameBoard().getGrid().length).toBe(10);
+  expect(GameBoard().getGrid()[0].length).toBe(10);
 });
 
 test('Gameboard has placeShip function', () => {
@@ -13,15 +13,15 @@ test('Gameboard has placeShip function', () => {
 test('Gameboard placeShip creates ship object and places in array', () => {
   const board = GameBoard();
   board.placeShip(3, [0, 0]);
-  expect(board.ships.length).toEqual(1);
+  expect(board.getShips().length).toEqual(1);
 });
 
 test('Gameboard placeShip marks coordinates as occupied', () => {
   const board = GameBoard();
   board.placeShip(2, [0, 0], 'x');
-  expect(board.grid[0][0]).toEqual(['o']);
-  expect(board.grid[1][0]).toEqual(['o']);
-  expect(board.grid[2][0]).not.toEqual(['o']);
+  expect(board.getGrid()[0][0]).toEqual(['o']);
+  expect(board.getGrid()[1][0]).toEqual(['o']);
+  expect(board.getGrid()[2][0]).not.toEqual(['o']);
 });
 
 test('Gameboard placeShip throws an error if coordinates are already occupied', () => {
@@ -41,21 +41,21 @@ test('Gameboard receiveAttack function calls hit if it hits a ship', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
   board.receiveAttack([5, 0]);
-  expect(board.ships[0].getHitNum()).toBe(1);
+  expect(board.getShips()[0].getHitNum()).toBe(1);
 });
 
 test('Gameboard marks cell with x if a ship is hit', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
   board.receiveAttack([5, 0]);
-  expect(board.grid[5][0]).toEqual(['x']);
+  expect(board.getGrid()[5][0]).toEqual(['x']);
 });
 
 test('Gameboard cell with with . if it is a missed shot', () => {
   const board = GameBoard();
   board.placeShip(4, [2, 0], 'x');
   board.receiveAttack([6, 0]);
-  expect(board.grid[6][0]).toEqual(['.']);
+  expect(board.getGrid()[6][0]).toEqual(['.']);
 });
 
 test('Gameboard has function that tests to see if all ships are sunk', () => {
