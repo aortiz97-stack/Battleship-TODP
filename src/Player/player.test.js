@@ -9,3 +9,8 @@ test('Player can create player objects', () => {
 test('Player creates a gameboard and stores it for player', () => {
   expect(JSON.stringify(Player().gameBoard)).toEqual(JSON.stringify(GameBoard()));
 });
+
+test('Player can be chosen to be computer or manual player', () => {
+  expect(Player().getPlayerType()).toBe('player');
+  expect(Player('computer').getPlayerType()).toBe('computer');
+});
