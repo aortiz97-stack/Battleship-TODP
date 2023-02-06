@@ -19,7 +19,7 @@ for (let i = 0; i < grid.length; i += 1) {
     // eslint-disable-next-line prefer-destructuring
     if (grid[i][j][0] !== 'empty') cell.innerHTML = grid[i][j][0];
     cell.classList.add(grid[i][j][0]);
-    cell.classList.add(`[${i}, ${j}]`);
+    cell.classList.add(JSON.stringify([i, j]));
     gridContainer.appendChild(cell);
   }
 }
@@ -38,20 +38,26 @@ for (let i = 0; i < grid2.length; i += 1) {
     const cell = document.createElement('div');
     // eslint-disable-next-line prefer-destructuring
     cell.classList.add(grid[i][j][0]);
+    cell.classList.add(JSON.stringify([i, j]));
     opponentGridContainer.appendChild(cell);
   }
 }
 
 // Add event listener to grid
 opponentGridContainer.addEventListener('click', (e) => {
-  if (e.target.classList.includes('o')) {
+  if (e.target.classList.contains('o')) {
     e.target.innerHTML = 'x';
     e.target.classList.remove('o');
     e.target.classList.add('x');
-    for (let i = 0; i < 10; i += 1) {
-      for (let j = 0; j < 10; j += 1) {
-        
+
+    let coord;
+    for (let i = 0; i < e.target.classList.length; i += 1) {
+      const c = e.target.classList[i];
+      if (c[0] === '[') {
+        coord = JSON.parse(c);
       }
     }
+    const shipIdx = gameBoard2.getShipIdxfromGridCoords(coord);
+    gameBoard2.getShips()[shipIdx].hit();
   }
 });

@@ -1,10 +1,22 @@
 body {
     width: 100vw;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
+
+.grids {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+}
+
+.grids > div {
+    height: 100%;
+    width: 100%;
+}
+
 .grid-container, .opponent-grid-container {
     height: 75%;
     width: 75vh;
@@ -18,13 +30,10 @@ body {
     text-align: center;
 }
 
-div.o {
+.grid-container div.o {
   background-color: #ADD8E6;
 }
 
-div.o.vertical {
-    border-left-color: navy;
-    border-right-color: navy;
-    border-left-width: 2px;
-    border-right-width: 2px;
+div.x {
+    background-color: #ff6961;
 }
