@@ -78,3 +78,14 @@ test('Gameboard allShips sunk returns false if not all ships are sunk', () => {
   board.receiveAttack([2, 0]);
   expect(board.allShipsSunk()).toBe(false);
 });
+
+test('Gameboard getShipfromGridCoords returns ship with coordinates', () => {
+  const board = GameBoard();
+  board.placeShip(2, [2, 0]);
+  expect(JSON.stringify(board.getShipfromGridCoords([2, 1])))
+    .toEqual(JSON.stringify(board.getShips()[0]));
+
+  board.placeShip(3, [6, 0], 'y');
+  expect(JSON.stringify(board.getShipfromGridCoords([1, 1])))
+    .not.toEqual(JSON.stringify(board.getShips()[1]));
+});

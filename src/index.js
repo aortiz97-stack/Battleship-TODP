@@ -22,3 +22,19 @@ for (let i = 0; i < grid.length; i += 1) {
     gridContainer.appendChild(cell);
   }
 }
+
+const gameBoard2 = game.getPlayer1(2).getGameBoard();
+gameBoard2.placeShip(5, [3, 3], 'y');
+gameBoard2.placeShip(4, [1, 5]);
+gameBoard2.placeShip(3, [1, 2], 'y');
+gameBoard2.placeShip(3, [6, 6]);
+gameBoard2.placeShip(2, [4, 7], 'y');
+
+//Add event listener to grid
+gridContainer.addEventListener('click', (e) => {
+    if (e.target.innerHTML === 'o') {
+      e.target.innerHTML = 'x';
+      e.target.classList.remove('o');
+      e.target.classList.
+    }
+});

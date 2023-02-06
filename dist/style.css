@@ -5,7 +5,7 @@ body {
     justify-content: center;
     align-items: center;
 }
-.grid-container {
+.grid-container, .opponent-grid-container {
     height: 75%;
     width: 75vh;
     display: grid;
@@ -13,7 +13,7 @@ body {
     grid-template-columns: repeat(10, 1fr);
 }
 
-.grid-container div {
+.grid-container div, .opponent-grid-container div {
     border: 1px solid black;
     text-align: center;
 }
