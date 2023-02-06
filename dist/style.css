@@ -17,3 +17,14 @@ body {
     border: 1px solid black;
     text-align: center;
 }
+
+div.o {
+  background-color: #ADD8E6;
+}
+
+div.o.vertical {
+    border-left-color: navy;
+    border-right-color: navy;
+    border-left-width: 2px;
+    border-right-width: 2px;
+}

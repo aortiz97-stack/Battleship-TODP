@@ -2,7 +2,7 @@ const Game = require('./Game/game');
 
 const game = Game();
 
-//Set basic board up
+// Set basic board up
 const gridContainer = document.querySelector('.grid-container');
 const grid = game.getPlayer1().getGameBoard().getGrid();
 
