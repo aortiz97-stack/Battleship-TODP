@@ -89,13 +89,13 @@ const GameBoard = () => {
     }
   };
 
-  const getShipfromGridCoords = (targetCoords) => {
+  const getShipIdxfromGridCoords = (targetCoords) => {
     for (let i = 0; i < getShips().length; i += 1) {
       const ship = getShips()[i];
       for (let j = 0; j < ship.getShipCoords().length; j += 1) {
         const coord = ship.getShipCoords()[j];
         if (JSON.stringify(targetCoords) === JSON.stringify(coord)) {
-          return ship;
+          return i;
         }
       }
     }
@@ -111,7 +111,7 @@ const GameBoard = () => {
   };
 
   return {
-    getGrid, getShips, placeShip, receiveAttack, allShipsSunk, getShipfromGridCoords,
+    getGrid, getShips, placeShip, receiveAttack, allShipsSunk, getShipIdxfromGridCoords,
   };
 };
 

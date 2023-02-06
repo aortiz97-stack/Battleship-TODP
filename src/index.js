@@ -19,22 +19,39 @@ for (let i = 0; i < grid.length; i += 1) {
     // eslint-disable-next-line prefer-destructuring
     if (grid[i][j][0] !== 'empty') cell.innerHTML = grid[i][j][0];
     cell.classList.add(grid[i][j][0]);
+    cell.classList.add(`[${i}, ${j}]`);
     gridContainer.appendChild(cell);
   }
 }
 
-const gameBoard2 = game.getPlayer1(2).getGameBoard();
+const opponentGridContainer = document.querySelector('.opponent-grid-container');
+const gameBoard2 = game.getPlayer2().getGameBoard();
+const grid2 = game.getPlayer2().getGameBoard().getGrid();
 gameBoard2.placeShip(5, [3, 3], 'y');
 gameBoard2.placeShip(4, [1, 5]);
 gameBoard2.placeShip(3, [1, 2], 'y');
 gameBoard2.placeShip(3, [6, 6]);
 gameBoard2.placeShip(2, [4, 7], 'y');
 
-//Add event listener to grid
-gridContainer.addEventListener('click', (e) => {
-    if (e.target.innerHTML === 'o') {
-      e.target.innerHTML = 'x';
-      e.target.classList.remove('o');
-      e.target.classList.
+for (let i = 0; i < grid2.length; i += 1) {
+  for (let j = 0; j < grid2.length; j += 1) {
+    const cell = document.createElement('div');
+    // eslint-disable-next-line prefer-destructuring
+    cell.classList.add(grid[i][j][0]);
+    opponentGridContainer.appendChild(cell);
+  }
+}
+
+// Add event listener to grid
+opponentGridContainer.addEventListener('click', (e) => {
+  if (e.target.classList.includes('o')) {
+    e.target.innerHTML = 'x';
+    e.target.classList.remove('o');
+    e.target.classList.add('x');
+    for (let i = 0; i < 10; i += 1) {
+      for (let j = 0; j < 10; j += 1) {
+        
+      }
     }
+  }
 });
