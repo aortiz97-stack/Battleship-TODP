@@ -45,6 +45,8 @@ for (let i = 0; i < grid2.length; i += 1) {
 
 // Add event listener to grid
 opponentGridContainer.addEventListener('click', (e) => {
-  game.playRound(e);
-  game.playComputerRound();
+  if (e.target.classList.contains('o') || e.target.classList.contains('empty')) {
+    game.playRound(e);
+    game.playComputerRound();
+  }
 });

@@ -105,8 +105,6 @@ const Game = () => {
         enemyGridCell.innerHTML = '.';
         enemyGridCell.classList.remove('empty');
         enemyGridCell.classList.add('missed');
-      } else if (enemyGridCell.classList.contains('.') || enemyGridCell.classList.contains('x')) {
-        switchController();
       }
     }
     const attackCoord = getCompCoord();
@@ -145,8 +143,6 @@ const Game = () => {
         htmlChanges('.', 'empty', 'missed');
         coord = coordFunc(e);
         enemyBoard.receiveAttack(coord);
-      } else if (e.target.classList.contains('.') || e.target.classList.contains('x')) {
-        switchController();
       }
       return coord;
     }
