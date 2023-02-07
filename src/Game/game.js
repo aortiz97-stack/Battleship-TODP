@@ -39,10 +39,13 @@ const Game = () => {
     let randX = Math.floor(Math.random() * 10);
     let randY = Math.floor(Math.random() * 10);
 
-    while (enemyBoard.getGrid()[randX][randY][0] !== 'empty') {
+    console.log(`random enemy board ${[randX, randY]}`);
+
+    while (enemyBoard.getGrid()[randX][randY][0] !== 'empty' && enemyBoard.getGrid()[randX][randY][0] !== 'o') {
       randX = Math.floor(Math.random() * 10);
       randY = Math.floor(Math.random() * 10);
     }
+    console.log(`new random enemy board ${[randX, randY]}`);
     return [randX, randY];
   };
 
@@ -64,19 +67,16 @@ const Game = () => {
     for (let i = 0; i < possibleHits.length; i += 1) {
       const possibleX = possibleHits[i][0];
       const possibleY = possibleHits[i][1];
-      console.log(`possibleX: ${possibleX}`);
-      console.log(`possibleY: ${possibleY}`);
-      console.log(`x truth: ${(possibleX >= 0 || possibleX <= 9)}`);
-      if (((possibleX >= 0 && possibleX <= 9) && (possibleY >= 0 && possibleY <= 9)) && enemyBoard.getGrid()[possibleX][possibleY] === 'empty') {
+      if (((possibleX >= 0 && possibleX <= 9) && (possibleY >= 0 && possibleY <= 9))
+      && ((enemyBoard.getGrid()[possibleX][possibleY][0] === 'empty') || (enemyBoard.getGrid()[possibleX][possibleY][0] === 'o'))) {
         viableHits.push(possibleHits[i]);
       }
     }
-
+    if (viableHits.length === 0) {
+      const randHit = getRandCompHit();
+      return randHit;
+    }
     const randomIdx = Math.floor(Math.random() * (viableHits.length));
-
-    console.log(`viableHits: ${viableHits}`);
-
-    if (viableHits.length === 0) return getRandCompHit();
 
     return viableHits[randomIdx];
   };
@@ -89,15 +89,12 @@ const Game = () => {
   };
 
   const playComputerRound = () => {
-    console.log('exterminate');
-    const enemyGrid = document.querySelector('.grid-container');
+    const enemyHTMLGrid = document.querySelector('.grid-container');
     const enemyBoard = getOtherPlayer().getGameBoard();
 
     function changeHTML(coord) {
-      const enemyGridCell = enemyGrid.getElementsByClassName(JSON.stringify(coord))[0];
-      console.log('beep');
+      const enemyGridCell = enemyHTMLGrid.getElementsByClassName(JSON.stringify(coord))[0];
       if (enemyGridCell.classList.contains('o')) {
-        console.log('pop goes the weasel');
         enemyGridCell.innerHTML = 'x';
         enemyGridCell.classList.remove('o');
         enemyGridCell.classList.add('x');
@@ -111,7 +108,8 @@ const Game = () => {
     enemyBoard.receiveAttack(attackCoord);
     changeHTML(attackCoord);
 
-    setPrevCompHit(attackCoord);
+    if (enemyBoard.getGrid()[attackCoord[0]][attackCoord[1]][0] === 'x') setPrevCompHit(attackCoord);
+    else setPrevCompHit(null);
   };
 
   const playRound = (e) => {
@@ -153,7 +151,6 @@ const Game = () => {
       playComputerRound();
     }
     switchController();
-    console.log(`controller: ${getController().getPlayerType()}`);
   };
   return {
     getPlayer1, getPlayer2, gameOver, declareWinner, playRound, playComputerRound, switchController,
