@@ -37,3 +37,7 @@ body {
 div.x {
     background-color: #ff6961;
 }
+
+div.missed {
+    background-color: #cfcfc4;
+}

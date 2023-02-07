@@ -45,19 +45,6 @@ for (let i = 0; i < grid2.length; i += 1) {
 
 // Add event listener to grid
 opponentGridContainer.addEventListener('click', (e) => {
-  if (e.target.classList.contains('o')) {
-    e.target.innerHTML = 'x';
-    e.target.classList.remove('o');
-    e.target.classList.add('x');
-
-    let coord;
-    for (let i = 0; i < e.target.classList.length; i += 1) {
-      const c = e.target.classList[i];
-      if (c[0] === '[') {
-        coord = JSON.parse(c);
-      }
-    }
-    const shipIdx = gameBoard2.getShipIdxfromGridCoords(coord);
-    gameBoard2.getShips()[shipIdx].hit();
-  }
+  game.playRound(e);
+  game.playComputerRound();
 });
