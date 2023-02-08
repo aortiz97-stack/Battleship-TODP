@@ -47,6 +47,6 @@ for (let i = 0; i < grid2.length; i += 1) {
 opponentGridContainer.addEventListener('click', (e) => {
   if (e.target.classList.contains('o') || e.target.classList.contains('empty')) {
     game.playRound(e);
-    game.playComputerRound();
+    setTimeout(game.playComputerRound, 0);
   }
 });

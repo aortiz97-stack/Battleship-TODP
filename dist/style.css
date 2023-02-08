@@ -39,5 +39,10 @@ div.x {
 }
 
 div.missed {
-    background-color: #cfcfc4;
+    /*background-color: #cfcfc4;*/
+    background-color: cyan;
+}
+
+div[class="o"] {
+    background-color: purple;
 }

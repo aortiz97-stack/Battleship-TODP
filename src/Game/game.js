@@ -39,13 +39,11 @@ const Game = () => {
     let randX = Math.floor(Math.random() * 10);
     let randY = Math.floor(Math.random() * 10);
 
-    console.log(`random enemy board ${[randX, randY]}`);
-
     while (enemyBoard.getGrid()[randX][randY][0] !== 'empty' && enemyBoard.getGrid()[randX][randY][0] !== 'o') {
       randX = Math.floor(Math.random() * 10);
       randY = Math.floor(Math.random() * 10);
     }
-    console.log(`new random enemy board ${[randX, randY]}`);
+    console.log(`what is going on here fellas ${enemyBoard.getGrid()[randX][randY]}`);
     return [randX, randY];
   };
 
@@ -83,17 +81,18 @@ const Game = () => {
 
   const getCompCoord = () => {
     if (getPrevCompHit() !== null) {
-      return getNonRandCompHit();
+      return getRandCompHit();
+      //return getNonRandCompHit();
     }
     return getRandCompHit();
   };
 
   const playComputerRound = () => {
-    const enemyHTMLGrid = document.querySelector('.grid-container');
     const enemyBoard = getOtherPlayer().getGameBoard();
 
     function changeHTML(coord) {
-      const enemyGridCell = enemyHTMLGrid.getElementsByClassName(JSON.stringify(coord))[0];
+      const enemyGridCell = document.getElementsByClassName(`${JSON.stringify(coord)}`)[0];
+      console.log(`theclasslist ${Array.from(enemyGridCell.classList)}`);
       if (enemyGridCell.classList.contains('o')) {
         enemyGridCell.innerHTML = 'x';
         enemyGridCell.classList.remove('o');
@@ -107,9 +106,9 @@ const Game = () => {
     const attackCoord = getCompCoord();
     enemyBoard.receiveAttack(attackCoord);
     changeHTML(attackCoord);
-
     if (enemyBoard.getGrid()[attackCoord[0]][attackCoord[1]][0] === 'x') setPrevCompHit(attackCoord);
     else setPrevCompHit(null);
+    switchController();
   };
 
   const playRound = (e) => {
@@ -134,21 +133,19 @@ const Game = () => {
     function processHit(coordFunc) {
       let coord;
       if (e.target.classList.contains('o')) {
+        coord = coordFunc(e);
+        enemyBoard.receiveAttack(coord);
         htmlChanges('x', 'o', 'x');
-        coord = coordFunc(e);
-        enemyBoard.receiveAttack(coord);
       } else if (e.target.classList.contains('empty')) {
-        htmlChanges('.', 'empty', 'missed');
         coord = coordFunc(e);
         enemyBoard.receiveAttack(coord);
+        htmlChanges('.', 'empty', 'missed');
       }
       return coord;
     }
 
     if (JSON.stringify(getController()) === JSON.stringify(getPlayer1())) {
       processHit(getCoord);
-    } else if (JSON.stringify(getController()) === JSON.stringify(getPlayer2()) && getController().getPlayerType === 'computer') {
-      playComputerRound();
     }
     switchController();
   };
