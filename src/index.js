@@ -43,10 +43,20 @@ for (let i = 0; i < grid2.length; i += 1) {
   }
 }
 
+let gameHasEnded = false;
 // Add event listener to grid
 opponentGridContainer.addEventListener('click', (e) => {
-  if (e.target.classList.contains('o') || e.target.classList.contains('empty')) {
+  if ((e.target.classList.contains('o') || e.target.classList.contains('empty')) && !gameHasEnded) {
     game.playRound(e);
+    console.log(`computer's ships: ${(game.getPlayer2().getGameBoard().getShips()[0]).getHitNum()}`);
+    if (game.gameOver()) {
+      gameHasEnded = true;
+      game.declareWinner();
+    }
     setTimeout(game.playComputerRound, 0);
+    if (game.gameOver()) {
+      gameHasEnded = true;
+      game.declareWinner();
+    }
   }
 });

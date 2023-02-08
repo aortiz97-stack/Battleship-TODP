@@ -22,13 +22,22 @@ const Game = () => {
   const getPrevCompHit = () => prevComputerHitCoord;
   const setPrevCompHit = (newHitCoord) => { prevComputerHitCoord = newHitCoord; };
 
-  const gameOver = () => (getPlayer1().getGameBoard().allShipsSunk()
-    || getPlayer2().getGameBoard().allShipsSunk());
+  const gameOver = () => {
+    if (getPlayer1().getGameBoard().allShipsSunk() || getPlayer2().getGameBoard().allShipsSunk()) {
+      return true;
+    }
+    for (let rowNum = 0; rowNum < 10; rowNum += 1) {
+      for (let colNum = 0; colNum < 10; colNum += 1) {
+        if (getPlayer1().getGameBoard().getGrid()[rowNum][colNum][0] === 'empty') return false;
+      }
+    }
+    return true;
+  };
 
   const declareWinner = () => {
     if (gameOver()) {
-      if (getPlayer1.getGameBoard().allShipsSunk()) alert("Congratulations, you've won!");
-      else if (getPlayer2.getGameBoard().allShipsSunk()) alert("Sorry, you've lost");
+      if (getPlayer2().getGameBoard().allShipsSunk() && !getPlayer1().getGameBoard().allShipsSunk()) alert("Congratulations, you've won!");
+      else if (getPlayer1().getGameBoard().allShipsSunk() && !getPlayer2().getGameBoard().allShipsSunk()) alert("Sorry, you've lost");
       else alert('The game is a draw');
     }
   };
@@ -43,7 +52,6 @@ const Game = () => {
       randX = Math.floor(Math.random() * 10);
       randY = Math.floor(Math.random() * 10);
     }
-    console.log(`what is going on here fellas ${enemyBoard.getGrid()[randX][randY]}`);
     return [randX, randY];
   };
 
@@ -81,8 +89,7 @@ const Game = () => {
 
   const getCompCoord = () => {
     if (getPrevCompHit() !== null) {
-      return getRandCompHit();
-      //return getNonRandCompHit();
+      return getNonRandCompHit();
     }
     return getRandCompHit();
   };
@@ -92,7 +99,6 @@ const Game = () => {
 
     function changeHTML(coord) {
       const enemyGridCell = document.getElementsByClassName(`${JSON.stringify(coord)}`)[0];
-      console.log(`theclasslist ${Array.from(enemyGridCell.classList)}`);
       if (enemyGridCell.classList.contains('o')) {
         enemyGridCell.innerHTML = 'x';
         enemyGridCell.classList.remove('o');

@@ -7,7 +7,7 @@ const Ship = (inputLength = 1) => {
   const getHitNum = () => hitNum;
   const setHitNum = (newHitNum) => { hitNum = newHitNum; };
 
-  const hit = () => { setHitNum(1); };
+  const hit = () => { setHitNum(getHitNum() + 1); };
 
   const isSunk = () => {
     if (getHitNum() >= getLength()) {

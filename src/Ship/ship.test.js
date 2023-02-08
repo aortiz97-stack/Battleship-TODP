@@ -13,10 +13,6 @@ test('Ship() has hitNum attribute', () => {
   expect(typeof Ship().getHitNum()).not.toBe('undefined');
 });
 
-test('Ship() has isSunk attribute', () => {
-  expect(typeof Ship().isSunk).not.toBe('undefined');
-});
-
 test('Ship receives a length parameter and updates length parameter', () => {
   expect(Ship(4).getLength()).toBe(4);
   expect(Ship().getLength()).toBe(1);
