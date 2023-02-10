@@ -258,18 +258,37 @@ const Game = () => {
 
     buttonContainer.addEventListener('click', (e) => {
       if (!allShipsPlaced) {
-        const initShipCoord = getShipInitCoords(shipsList[idx]);
-        if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(initShipCoord) !== null) {
-          throw new Error('There is a ship already there. Please enter another coordinate.');
-        }
         let axis;
         if (e.target.classList.contains('row')) {
           axis = 'row';
         } else if (e.target.classList.contains('col')) {
           axis = 'col';
         }
+        const initShipCoord = getShipInitCoords(shipsList[idx]);
+        if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(initShipCoord) !== null) {
+          throw new Error('There is a ship already there. Please enter another coordinate.');
+        }
         const finalCoords = demoPlacement(initShipCoord, axis, shipsList[idx]);
         const shipLength = Ship().getShipTypeLength(shipsList[idx]);
+        if (axis === 'row') {
+          let newY = finalCoords[1];
+          for (let i = 0; i < shipLength; i += 1) {
+            const currCoord = [finalCoords[0], newY];
+            if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(currCoord) !== null) {
+              throw new Error('There is a ship already there. Please enter another coordinate.');
+            }
+            newY += 1;
+          }
+        } else if (axis === 'col') {
+          let newX = finalCoords[1];
+          for (let i = 0; i < shipLength; i += 1) {
+            const currCoord = [newX, finalCoords[1]];
+            if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(currCoord) !== null) {
+              throw new Error('There is a ship already there. Please enter another coordinate.');
+            }
+            newX += 1;
+          }
+        }
         getPlayer1().getGameBoard().placeShip(shipLength, finalCoords, axis);
         idx += 1;
 
