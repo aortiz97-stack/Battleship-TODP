@@ -325,6 +325,66 @@ const Game = () => {
     }
   };
 
+  const placeComputerShipsRandom = () => {
+    const opponentGridContainer = document.querySelector('.opponent-grid-container');
+    const gameBoard2 = getPlayer2().getGameBoard();
+    const grid2 = getPlayer2().getGameBoard().getGrid();
+
+    function getRandomPlacement() {
+      const axisDetermine = Math.floor(Math.random() * 2);
+      let axis;
+      if (axisDetermine === 0) axis = 'row';
+      else if (axisDetermine === 1) axis = 'col';
+      const row = Math.floor(Math.random() * 10);
+      const col = Math.floor(Math.random() * 10);
+      return [row, col, axis];
+    }
+
+    function placePotentialShip(length) {
+      const randomPlacement = getRandomPlacement();
+      const randomCoords = [randomPlacement[0], randomPlacement[1]];
+      const axis = randomPlacement[2];
+      try {
+        gameBoard2.placeShip(length, randomCoords, axis);
+      } catch {
+        placePotentialShip(length);
+      }
+    }
+
+    placePotentialShip(5);
+    placePotentialShip(4);
+    placePotentialShip(3);
+    placePotentialShip(3);
+    placePotentialShip(2);
+
+    for (let i = 0; i < grid2.length; i += 1) {
+      for (let j = 0; j < grid2.length; j += 1) {
+        const cell = document.createElement('div');
+        // eslint-disable-next-line prefer-destructuring
+        cell.classList.add(grid2[i][j][0]);
+        cell.classList.add(JSON.stringify([i, j]));
+        opponentGridContainer.appendChild(cell);
+      }
+    }
+
+    let gameHasEnded = false;
+    // Add event listener to grid
+    opponentGridContainer.addEventListener('click', (e) => {
+      if ((e.target.classList.contains('o') || e.target.classList.contains('empty')) && !gameHasEnded) {
+        playRound(e);
+        if (gameOver()) {
+          gameHasEnded = true;
+          declareWinner();
+        }
+        setTimeout(playComputerRound, 0);
+        if (gameOver()) {
+          gameHasEnded = true;
+          declareWinner();
+        }
+      }
+    });
+  };
+
   return {
     getPlayer1,
     getPlayer2,
@@ -334,6 +394,7 @@ const Game = () => {
     playComputerRound,
     switchController,
     setUpYourHTMLBoard,
+    placeComputerShipsRandom,
   };
 };
 
