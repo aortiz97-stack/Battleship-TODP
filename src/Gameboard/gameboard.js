@@ -22,14 +22,14 @@ const GameBoard = () => {
   const markGridAsOccupied = (length, coords, axis, ship) => {
     getGrid()[coords[0]][coords[1]] = ['o'];
     ship.getShipCoords().push(coords);
-    if (axis === 'x') {
+    if (axis === 'row') {
       let newCoordY = coords[1] + 1;
       while (newCoordY < coords[1] + length) {
         getGrid()[coords[0]][newCoordY] = ['o'];
         ship.getShipCoords().push([coords[0], newCoordY]);
         newCoordY += 1;
       }
-    } else if (axis === 'y') {
+    } else if (axis === 'col') {
       let newCoordX = coords[0] + 1;
       while (newCoordX < coords[0] + length) {
         getGrid()[newCoordX][coords[1]] = ['o'];
@@ -42,7 +42,7 @@ const GameBoard = () => {
   const spacedOccupied = (length, coords, axis) => {
     let coordX = coords[0];
     let coordY = coords[1];
-    if (axis === 'x') {
+    if (axis === 'row') {
       const finalCoordY = coordY + length - 1;
       while (coordY <= finalCoordY) {
         if (grid[coordX][coordY][0] === 'o') {
@@ -50,7 +50,7 @@ const GameBoard = () => {
         }
         coordY += 1;
       }
-    } else if (axis === 'y') {
+    } else if (axis === 'col') {
       const finalCoordX = coordX + length - 1;
       while (coordX <= finalCoordX) {
         if (grid[coordX][coordY][0] === 'o') {
@@ -61,7 +61,7 @@ const GameBoard = () => {
     }
     return false;
   };
-  const placeShip = (length, coords, axis = 'x') => {
+  const placeShip = (length, coords, axis = 'row') => {
     if (spacedOccupied(length, coords, axis)) {
       throw new Error('Space is already occupied');
     }

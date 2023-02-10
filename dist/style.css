@@ -30,8 +30,13 @@ body {
     text-align: center;
 }
 
+.grid-container div.demo {
+    background-color: #ADD8E6;
+}
+
 .grid-container div.o {
-  background-color: #ADD8E6;
+    background-color: #77DD77;
+  /*background-color: #ADD8E6;*/
 }
 
 div.x {
@@ -39,10 +44,5 @@ div.x {
 }
 
 div.missed {
-    /*background-color: #cfcfc4;*/
-    background-color: cyan;
-}
-
-div[class="o"] {
-    background-color: purple;
+    background-color: #cfcfc4;
 }

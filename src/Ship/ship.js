@@ -19,8 +19,18 @@ const Ship = (inputLength = 1) => {
   const shipCoords = [];
   const getShipCoords = () => shipCoords;
 
+  const getShipTypeLength = (shipType) => {
+    let shipTypeLength;
+    if (shipType === 'carrier') shipTypeLength = 5;
+    else if (shipType === 'battleship') shipTypeLength = 4;
+    else if (shipType === 'cruiser') shipTypeLength = 3;
+    else if (shipType === 'submarine') shipTypeLength = 3;
+    else if (shipType === 'destroyer') shipTypeLength = 2;
+    return shipTypeLength;
+  };
+
   return {
-    getLength, getHitNum, isSunk, hit, getShipCoords,
+    getLength, getHitNum, isSunk, hit, getShipCoords, getShipTypeLength,
   };
 };
 
