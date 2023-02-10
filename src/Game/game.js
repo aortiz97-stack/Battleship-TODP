@@ -366,8 +366,11 @@ const Game = () => {
         opponentGridContainer.appendChild(cell);
       }
     }
+  };
 
+  const playGame = () => {
     let gameHasEnded = false;
+    const opponentGridContainer = document.querySelector('.opponent-grid-container');
     // Add event listener to grid
     opponentGridContainer.addEventListener('click', (e) => {
       if ((e.target.classList.contains('o') || e.target.classList.contains('empty')) && !gameHasEnded) {
