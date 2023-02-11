@@ -1,11 +1,12 @@
 const Ship = require('../Ship/ship');
 
 const GameBoard = () => {
+  const lastIndex = 14;
   const setGrid = () => {
     const grid = [];
-    for (let i = 0; i < 10; i += 1) {
+    for (let i = 0; i < lastIndex + 1; i += 1) {
       const row = [];
-      for (let j = 0; j < 10; j += 1) {
+      for (let j = 0; j < lastIndex + 1; j += 1) {
         const pos = ['empty'];
         row.push(pos);
       }

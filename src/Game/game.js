@@ -4,6 +4,7 @@ const Ship = require('../Ship/ship');
 const Game = () => {
   const player1 = Player();
   const player2 = Player('computer');
+  const lastIndex = 14;
 
   const getPlayer1 = () => player1;
   const getPlayer2 = () => player2;
@@ -27,8 +28,8 @@ const Game = () => {
     if (getPlayer1().getGameBoard().allShipsSunk() || getPlayer2().getGameBoard().allShipsSunk()) {
       return true;
     }
-    for (let rowNum = 0; rowNum < 10; rowNum += 1) {
-      for (let colNum = 0; colNum < 10; colNum += 1) {
+    for (let rowNum = 0; rowNum < lastIndex + 1; rowNum += 1) {
+      for (let colNum = 0; colNum < lastIndex + 1; colNum += 1) {
         if (getPlayer1().getGameBoard().getGrid()[rowNum][colNum][0] === 'empty') return false;
       }
     }
@@ -46,12 +47,12 @@ const Game = () => {
   const getRandCompHit = () => {
     const enemyBoard = getOtherPlayer().getGameBoard();
 
-    let randX = Math.floor(Math.random() * 10);
-    let randY = Math.floor(Math.random() * 10);
+    let randX = Math.floor(Math.random() * (lastIndex + 1));
+    let randY = Math.floor(Math.random() * (lastIndex + 1));
 
     while (enemyBoard.getGrid()[randX][randY][0] !== 'empty' && enemyBoard.getGrid()[randX][randY][0] !== 'o') {
-      randX = Math.floor(Math.random() * 10);
-      randY = Math.floor(Math.random() * 10);
+      randX = Math.floor(Math.random() * (lastIndex + 1));
+      randY = Math.floor(Math.random() * (lastIndex + 1));
     }
     return [randX, randY];
   };
@@ -74,7 +75,7 @@ const Game = () => {
     for (let i = 0; i < possibleHits.length; i += 1) {
       const possibleX = possibleHits[i][0];
       const possibleY = possibleHits[i][1];
-      if (((possibleX >= 0 && possibleX <= 9) && (possibleY >= 0 && possibleY <= 9))
+      if (((possibleX >= 0 && possibleX <= lastIndex) && (possibleY >= 0 && possibleY <= lastIndex))
       && ((enemyBoard.getGrid()[possibleX][possibleY][0] === 'empty') || (enemyBoard.getGrid()[possibleX][possibleY][0] === 'o'))) {
         viableHits.push(possibleHits[i]);
       }
@@ -173,7 +174,7 @@ const Game = () => {
     if (axis === 'row') {
       let currY = coords[1];
       for (let i = 0; i < length; i += 1) {
-        if (currY >= 0 && currY <= 9) {
+        if (currY >= 0 && currY <= lastIndex) {
           allCoords.push([coords[0], currY]);
         } else {
           throw new Error("The board cannot accomodate your ship's entire length at the proposed coordinates.");
@@ -183,7 +184,7 @@ const Game = () => {
     } else if (axis === 'col') {
       let currX = coords[0];
       for (let i = 0; i < length; i += 1) {
-        if (currX >= 0 && currX <= 9) {
+        if (currX >= 0 && currX <= lastIndex) {
           allCoords.push([currX, coords[1]]);
         } else {
           throw new Error("The board cannot accomodate your ship's entire length at the proposed coordinates.");
@@ -256,7 +257,7 @@ const Game = () => {
     const shipsList = ['carrier', 'battleship', 'cruiser', 'submarine', 'destroyer'];
     let idx = 0;
 
-    buttonContainer.addEventListener('click', (e) => {
+    function processEvent(e) {
       if (!allShipsPlaced) {
         let axis;
         if (e.target.classList.contains('row')) {
@@ -294,11 +295,14 @@ const Game = () => {
 
         if (idx === shipsList.length) allShipsPlaced = true;
       }
-    });
+    }
+
+    buttonContainer.addEventListener('click', processEvent);
+
     return allShipsPlaced;
   };
 
-  const setUpYourHTMLBoard = () => {
+  const HTMLBoardSetUp = () => {
     const gridContainer = document.querySelector('.grid-container');
     const grid = getPlayer1().getGameBoard().getGrid();
     for (let i = 0; i < grid.length; i += 1) {
@@ -311,6 +315,9 @@ const Game = () => {
       }
     }
     if (placeShipsHTML()) {
+      const axisContainer = document.getElementById('axis-placement-container');
+      const body = document.querySelector('body');
+      body.removeChild(axisContainer);
       for (let i = 0; i < grid.length; i += 1) {
         for (let j = 0; j < grid.length; j += 1) {
           const cell = document.getElementsByClassName(JSON.stringify([i, j]))[0];
@@ -335,8 +342,8 @@ const Game = () => {
       let axis;
       if (axisDetermine === 0) axis = 'row';
       else if (axisDetermine === 1) axis = 'col';
-      const row = Math.floor(Math.random() * 10);
-      const col = Math.floor(Math.random() * 10);
+      const row = Math.floor(Math.random() * (lastIndex + 1));
+      const col = Math.floor(Math.random() * (lastIndex + 1));
       return [row, col, axis];
     }
 
@@ -369,6 +376,8 @@ const Game = () => {
   };
 
   const playGame = () => {
+    HTMLBoardSetUp();
+    placeComputerShipsRandom();
     let gameHasEnded = false;
     const opponentGridContainer = document.querySelector('.opponent-grid-container');
     // Add event listener to grid
@@ -396,8 +405,9 @@ const Game = () => {
     playRound,
     playComputerRound,
     switchController,
-    setUpYourHTMLBoard,
+    HTMLBoardSetUp,
     placeComputerShipsRandom,
+    playGame,
   };
 };
 
