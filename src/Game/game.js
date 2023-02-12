@@ -179,6 +179,9 @@ const Game = () => {
         } else {
           throw new Error("The board cannot accomodate your ship's entire length at the proposed coordinates.");
         }
+        if (getPlayer1().getGameBoard().getShipIdxfromGridCoords([coords[0], currY]) !== null) {
+          throw new Error('There is already a ship on one of the proposed coordinates');
+        }
         currY += 1;
       }
     } else if (axis === 'col') {
@@ -188,6 +191,9 @@ const Game = () => {
           allCoords.push([currX, coords[1]]);
         } else {
           throw new Error("The board cannot accomodate your ship's entire length at the proposed coordinates.");
+        }
+        if (getPlayer1().getGameBoard().getShipIdxfromGridCoords([currX, coords[1]]) !== null) {
+          throw new Error('There is already a ship on one of the proposed coordinates');
         }
         currX += 1;
       }
@@ -275,6 +281,7 @@ const Game = () => {
           let newY = finalCoords[1];
           for (let i = 0; i < shipLength; i += 1) {
             const currCoord = [finalCoords[0], newY];
+            console.log(`currCoord ${currCoord}`);
             if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(currCoord) !== null) {
               throw new Error('There is a ship already there. Please enter another coordinate.');
             }
@@ -293,7 +300,26 @@ const Game = () => {
         getPlayer1().getGameBoard().placeShip(shipLength, finalCoords, axis);
         idx += 1;
 
-        if (idx === shipsList.length) allShipsPlaced = true;
+        if (idx === shipsList.length) {
+          // Add event listener to grid
+          let gameHasEnded = true;
+          const opponentGridContainer = document.querySelector('.opponent-grid-container');
+          opponentGridContainer.addEventListener('click', (event) => {
+            if ((event.target.classList.contains('o') || event.target.classList.contains('empty')) && !gameHasEnded) {
+              playRound(event);
+              if (gameOver()) {
+                gameHasEnded = true;
+                declareWinner();
+              }
+              setTimeout(playComputerRound, 0);
+              if (gameOver()) {
+                gameHasEnded = true;
+                declareWinner();
+              }
+            }
+          });
+          allShipsPlaced = true;
+        }
       }
     }
 
@@ -315,9 +341,6 @@ const Game = () => {
       }
     }
     if (placeShipsHTML()) {
-      const axisContainer = document.getElementById('axis-placement-container');
-      const body = document.querySelector('body');
-      body.removeChild(axisContainer);
       for (let i = 0; i < grid.length; i += 1) {
         for (let j = 0; j < grid.length; j += 1) {
           const cell = document.getElementsByClassName(JSON.stringify([i, j]))[0];
@@ -357,13 +380,11 @@ const Game = () => {
         placePotentialShip(length);
       }
     }
-
     placePotentialShip(5);
     placePotentialShip(4);
     placePotentialShip(3);
     placePotentialShip(3);
     placePotentialShip(2);
-
     for (let i = 0; i < grid2.length; i += 1) {
       for (let j = 0; j < grid2.length; j += 1) {
         const cell = document.createElement('div');
@@ -378,23 +399,6 @@ const Game = () => {
   const playGame = () => {
     HTMLBoardSetUp();
     placeComputerShipsRandom();
-    let gameHasEnded = false;
-    const opponentGridContainer = document.querySelector('.opponent-grid-container');
-    // Add event listener to grid
-    opponentGridContainer.addEventListener('click', (e) => {
-      if ((e.target.classList.contains('o') || e.target.classList.contains('empty')) && !gameHasEnded) {
-        playRound(e);
-        if (gameOver()) {
-          gameHasEnded = true;
-          declareWinner();
-        }
-        setTimeout(playComputerRound, 0);
-        if (gameOver()) {
-          gameHasEnded = true;
-          declareWinner();
-        }
-      }
-    });
   };
 
   return {
