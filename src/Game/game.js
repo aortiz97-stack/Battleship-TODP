@@ -302,7 +302,7 @@ const Game = () => {
 
         if (idx === shipsList.length) {
           // Add event listener to grid
-          let gameHasEnded = true;
+          let gameHasEnded = false;
           const opponentGridContainer = document.querySelector('.opponent-grid-container');
           opponentGridContainer.addEventListener('click', (event) => {
             if ((event.target.classList.contains('o') || event.target.classList.contains('empty')) && !gameHasEnded) {
