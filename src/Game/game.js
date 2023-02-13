@@ -20,9 +20,9 @@ const Game = () => {
     otherPlayer = oldController;
   };
 
-  let prevComputerHitCoord = null;
+  const prevComputerHitCoord = [];
   const getPrevCompHit = () => prevComputerHitCoord;
-  const setPrevCompHit = (newHitCoord) => { prevComputerHitCoord = newHitCoord; };
+  const addPrevCompHit = (newHitCoord) => { getPrevCompHit().push(newHitCoord); };
 
   const gameOver = () => {
     if (getPlayer1().getGameBoard().allShipsSunk() || getPlayer2().getGameBoard().allShipsSunk()) {
@@ -59,38 +59,46 @@ const Game = () => {
 
   const getNonRandCompHit = () => {
     const enemyBoard = getOtherPlayer().getGameBoard();
-
-    const prevCoord = getPrevCompHit();
-    const prevX = prevCoord[0];
-    const prevY = prevCoord[1];
-
-    const possibleHits = [
-      [prevX + 1, prevY],
-      [prevX - 1, prevY],
-      [prevX, prevY + 1],
-      [prevX, prevY - 1],
-    ];
-
     const viableHits = [];
-    for (let i = 0; i < possibleHits.length; i += 1) {
-      const possibleX = possibleHits[i][0];
-      const possibleY = possibleHits[i][1];
-      if (((possibleX >= 0 && possibleX <= lastIndex) && (possibleY >= 0 && possibleY <= lastIndex))
-      && ((enemyBoard.getGrid()[possibleX][possibleY][0] === 'empty') || (enemyBoard.getGrid()[possibleX][possibleY][0] === 'o'))) {
-        viableHits.push(possibleHits[i]);
+
+    for (let i = 0; i < getPrevCompHit().length; i += 1) {
+      const prevCoord = getPrevCompHit().unshift();
+      const prevX = prevCoord[0];
+      const prevY = prevCoord[1];
+
+      const possibleHits = [
+        [prevX + 1, prevY],
+        [prevX - 1, prevY],
+        [prevX, prevY + 1],
+        [prevX, prevY - 1],
+      ];
+
+      for (let j = 0; j < possibleHits.length; j += 1) {
+        const possibleX = possibleHits[j][0];
+        const possibleY = possibleHits[j][1];
+        if (((possibleX >= 0 && possibleX <= lastIndex)
+          && (possibleY >= 0 && possibleY <= lastIndex))
+          && ((enemyBoard.getGrid()[possibleX][possibleY][0] === 'empty') || (enemyBoard.getGrid()[possibleX][possibleY][0] === 'o'))) {
+          viableHits.push(possibleHits[j]);
+        }
       }
     }
+
     if (viableHits.length === 0) {
       const randHit = getRandCompHit();
       return randHit;
     }
-    const randomIdx = Math.floor(Math.random() * (viableHits.length));
+    for (let i = 0; i < viableHits.length; i += 1) {
+      addPrevCompHit(viableHits[i]);
+    }
 
-    return viableHits[randomIdx];
+    console.log(`prevcomphit ${getPrevCompHit()}`);
+    return getPrevCompHit().unshift();
   };
 
   const getCompCoord = () => {
-    if (getPrevCompHit() !== null) {
+    if (getPrevCompHit().length !== 0) {
+      console.log('entrada');
       return getNonRandCompHit();
     }
     return getRandCompHit();
@@ -114,8 +122,7 @@ const Game = () => {
     const attackCoord = getCompCoord();
     enemyBoard.receiveAttack(attackCoord);
     changeHTML(attackCoord);
-    if (enemyBoard.getGrid()[attackCoord[0]][attackCoord[1]][0] === 'x') setPrevCompHit(attackCoord);
-    else setPrevCompHit(null);
+    if (enemyBoard.getGrid()[attackCoord[0]][attackCoord[1]][0] === 'x') addPrevCompHit(attackCoord);
     switchController();
   };
 
@@ -281,7 +288,6 @@ const Game = () => {
           let newY = finalCoords[1];
           for (let i = 0; i < shipLength; i += 1) {
             const currCoord = [finalCoords[0], newY];
-            console.log(`currCoord ${currCoord}`);
             if (getPlayer1().getGameBoard().getShipIdxfromGridCoords(currCoord) !== null) {
               throw new Error('There is a ship already there. Please enter another coordinate.');
             }
